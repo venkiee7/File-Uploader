@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { useHistory } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 const Login = (props) => {
     const [credentials, setCredentials] = useState({email: "", password: ""})
@@ -7,7 +8,7 @@ const Login = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch("http://localhost:8080/api/auth/login", {
+        const response = await fetch("http://localhost:8081/api/auth/login", {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'            
@@ -31,21 +32,26 @@ const Login = (props) => {
         setCredentials({...credentials, [e.target.name] : e.target.value})
     }
 
+    let myStyle = {
+        color: props.mode === 'dark' ? 'white' : '#042743',
+        backgroundColor: props.mode === 'dark' ? 'rgb(36 74 104)' : 'white',
+    }
+
     return (
-        <div className="mt-3">
-            <h2>Login to continue to iNotebook</h2>
+        <div className="container mt-3" style={myStyle}>
+            <h2>Login to continue to iRay </h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
                     <input type="email" className="form-control" value={credentials.email} onChange={onChange} id="email" name="email" aria-describedby="emailHelp" />
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                    <div id="emailHelp" className="form-text " style={myStyle}>We'll never share your email with anyone else.</div>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
                     <input type="password" className="form-control" value={credentials.password} onChange={onChange} id="password" name="password" />
                 </div>
                 
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-outline-info mb-3">Submit</button>
             </form>
         </div>
     )

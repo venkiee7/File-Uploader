@@ -3,8 +3,7 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  link
+  Route
 } from "react-router-dom";
 // import FileUploadScreen from './screens/FileUploadScreen';
 import Navbar from './screens/Navbar';
@@ -14,6 +13,7 @@ import Alert from './screens/Alert';
 import About from './screens/About';
 import Signup from './screens/Signup';
 import Login from './screens/Login';
+import Diseases from './screens/Diseases';
 
 function App() {
   // const [singleFiles, setSingleFiles] = useState([]);
@@ -41,6 +41,7 @@ function App() {
   // }, []);
 
   const [alert, setAlert] = useState(null);
+  const [mode, setMode] = useState('light');
   const showAlert = (message, type) => {
     setAlert({
       msg: message,
@@ -50,24 +51,43 @@ function App() {
       setAlert(null);
     }, 1500);
   }
+
+  const toggleMode = () => {
+    if (mode === 'light') {
+      setMode('dark');
+      document.body.style.backgroundColor = '#042743';
+      showAlert("Dark mode has been enabled", "success");
+      // document.title = 'TextUtils - Dark Mode';
+    }
+    else {
+      setMode('light');
+      document.body.style.backgroundColor = 'white';
+      showAlert("Light mode has been enabled", "success");
+      // document.title = 'TextUtils - Light Mode';
+    }
+  }
+
   return (
     <>
       <Router>
-        <Navbar />
+        <Navbar mode={mode} toggleMode={toggleMode}/>
         <Alert alert={alert} />
         <div className="container">
           <Switch>
             <Route exact path="/">
-              <Home showAlert={showAlert} />
+              <Home showAlert={showAlert} mode={mode} />
             </Route>
             <Route exact path="/about">
-              <About />
+              <About mode={mode}/>
+            </Route>
+            <Route exact path="/diseases">
+              <Diseases mode={mode}/>
             </Route>
             <Route exact path="/login">
-              <Login showAlert={showAlert} />
+              <Login showAlert={showAlert} mode={mode}/>
             </Route>
             <Route exact path="/signup">
-              <Signup showAlert={showAlert} />
+              <Signup showAlert={showAlert} mode={mode}/>
             </Route>
         </Switch>
       </div>

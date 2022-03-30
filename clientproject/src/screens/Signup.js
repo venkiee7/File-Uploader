@@ -7,8 +7,8 @@ const Signup = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const {name, email, password} = credentials;    
-        const response = await fetch("http://localhost:8080/api/auth/createuser", {
+        // const {name, email, password} = credentials;    
+        const response = await fetch("http://localhost:8081/api/auth/createuser", {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'            
@@ -32,9 +32,14 @@ const Signup = (props) => {
         setCredentials({...credentials, [e.target.name] : e.target.value})
     }
 
+    let myStyle = {
+        color: props.mode === 'dark' ? 'white' : '#042743',
+        backgroundColor: props.mode === 'dark' ? 'rgb(36 74 104)' : 'white',
+    }
+
     return (
-        <div className="container mt-2">
-            <h2 className="my-3">Create an account to use iRay</h2>
+        <div className="container mt-2" style={myStyle}>
+            <h2 className="my-3" >Create an account to use iRay</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>
@@ -43,7 +48,7 @@ const Signup = (props) => {
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
                     <input type="email" className="form-control" id="email" name="email" onChange={onChange} aria-describedby="emailHelp" />
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                    <div id="emailHelp" className="form-text" style={myStyle}>We'll never share your email with anyone else.</div>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
@@ -53,7 +58,7 @@ const Signup = (props) => {
                     <label htmlFor="cpassword" className="form-label">Confirm Password</label>
                     <input type="password" className="form-control" id="cpassword" name="cpassword" onChange={onChange} minLength={5} required/>
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-outline-info mb-3">Submit</button>
             </form>
         </div>
     )

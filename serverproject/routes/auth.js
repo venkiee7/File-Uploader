@@ -5,8 +5,17 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 var fetchuser = require('../helpers/fetchuser');
+// const multer = require('multer');  // File upload
+const cors = require('cors');
 
-const JWT_SECRET = "Jajuisagoodboy"
+const app = express();
+
+const JWT_SECRET = "hallabol"
+
+
+app.use(cors());
+app.use(express.static('data'));
+
 
 //Route 1: Create a user using: POST "/api/auth/createuser". No login required
 router.post ('/createuser',[
@@ -55,7 +64,7 @@ router.post ('/createuser',[
 
 //Route 2: Authenticate a user using: POST "/api/auth/login". No login required
 
-router.post ('/loginbe',[
+router.post ('/login',[
   body('email', 'Enter a valid email').isEmail(),
   body('password', 'Password cannot be blank').exists(),
 ], async (req, res) => {
@@ -96,9 +105,10 @@ router.post ('/loginbe',[
   })  
 
 //Route 3: Get loggedin User Details using: POST "/api/auth/getuser". Login required
-router.post ('/getuserbe', fetchuser ,async (req, res) => {
+router.post ('/getuser', fetchuser ,async (req, res) => {
 try {
-  userId = req.user.id;
+  let userId = req.user.id;
+  // userId = "todo";
   const user = await User.findById(userId).select("-password")
   res.send(user)
 } catch (error) {

@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.btn-info:hover{
+  color: yellow;
+  background-color: red;
+  border-color: royalblue;
+  transition-duration: 1s;
+}

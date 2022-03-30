@@ -1,8 +1,9 @@
 import React from 'react'
+// import PropTypes from 'prop-types'
 import { Link, useHistory, useLocation } from "react-router-dom";
 
 
-const Navbar = () => {
+const Navbar = (props) => {
     let history = useHistory();
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -11,7 +12,7 @@ const Navbar = () => {
 
     let location = useLocation();
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
             <div className="container-fluid">
                 <Link className="navbar-brand" to="/">Diagnosis</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,12 +26,23 @@ const Navbar = () => {
                         <li className="nav-item">
                             <Link className={`nav-link ${location.pathname==="/about"? "active" : ""}`} to="/about">About</Link>
                         </li>
-                    </ul>
-                    {!localStorage.getItem('token')?<form className="d-flex">
-                    <Link className="btn btn-primary mx-2" to="/login" role="button">Login</Link>
-                    <Link className="btn btn-primary mx-2" to="/signup" role="button">Signup</Link>
+                        <li className="nav-item">
+                            <Link className={`nav-link ${location.pathname==="/diseases"? "active" : ""}`} to="/diseases">Diseases</Link>
+                        </li>
 
-                    </form>: <button onClick={handleLogout} className="btn btn-primary">Logout</button>}
+                    </ul>
+                    {/* <div className="d-flex">
+                        <div className="bg-primary rounded mx-2" style={{height: '30px', width: '30px'}}></div>
+                    </div> */}
+                    <div className={`form-check form-switch text-${props.mode === 'light' ? 'dark' : 'light'}`}>
+                        <input className="form-check-input" onClick={props.toggleMode} type="checkbox" id="flexSwitchCheckDefault" />
+                        <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Enable DarkMode</label>
+                    </div>
+                    {!localStorage.getItem('token')?<form className="d-flex">
+                    <Link className="btn btn-outline-info mx-2" to="/login" role="button">Login</Link>
+                    <Link className="btn btn-outline-info mx-2" to="/signup" role="button">Signup</Link>
+
+                    </form>: <button onClick={handleLogout} className="btn btn-outline-info mx-2">Logout</button>}
                 </div>
             </div>
         </nav>
